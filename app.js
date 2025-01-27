@@ -20,19 +20,51 @@ for (const btn of allbtn) {
 
         li.appendChild(p);
         li.appendChild(p2);
+
+        const budget = document.getElementById('budget').innerText;
+        const parseIntBudget = parseInt(budget);
+
+        if (parseIntBudget - parseIntPrice < 0) {
+            alert('Sorry your balace is low');
+            return;
+        }
+
+        document.getElementById('budget').innerText = parseIntBudget - parseIntPrice;
+
         selectedPlaceContainer.appendChild(li);
 
-        const totalCost = document.getElementById('total-cost').innerText;
-        const parseIntTotalCost = parseInt(totalCost);
-
-        const sum = parseIntPrice + parseIntTotalCost;
-
-        setInnerText('total-cost', sum);
-
-
+        totalCost('total-cost', parseIntPrice);
+        grandTotalCost('grand-total', parseIntPrice);
         setInnerText('cart-count', count);
-    })
+    });
 }
+
+function totalCost(id, value) {
+    const totalCost = document.getElementById(id).innerText;
+    const parseIntTotalCost = parseInt(totalCost);
+    const sum = value + parseIntTotalCost;
+    setInnerText(id, sum);
+}
+
+function grandTotalCost(category) {
+
+    const totalCost = document.getElementById('total-cost').innerText;
+    const parseIntTotalCost = parseInt(totalCost);
+
+    if (category == 'bus') {
+        setInnerText('grand-total', parseIntTotalCost + 100);
+    }
+    else if (category == 'train') {
+        setInnerText('grand-total', parseIntTotalCost - 200);
+    }
+    else if (category == 'flight') {
+        setInnerText('grand-total', parseIntTotalCost + 500);
+    }
+    else {
+        setInnerText('grand-total', parseIntTotalCost);
+    }
+}
+
 
 function setInnerText(id, value) {
     document.getElementById(id).innerText = value;
